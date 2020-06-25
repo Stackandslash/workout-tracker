@@ -1,0 +1,12 @@
+pids
+*.pid
+*.seed
+*.pid.lock
+node_modules/
+jspm_packages/
+.npm
+package-lock.json
+yarn.lock
+.DS_Store
+.vscode
+*.xslx
