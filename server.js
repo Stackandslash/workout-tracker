@@ -18,7 +18,7 @@ require("./routes/routes.js")(app); //This requires our routing file
 app.use(express.static("public"));
 
 //This (may) hook us up to our MongoDB DB.
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/custommethoddb", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
 
 // Start the server
 app.listen(PORT, () => {
