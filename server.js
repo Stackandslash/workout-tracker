@@ -5,7 +5,7 @@ const logger = require("morgan"); //This seemed pretty cool. Let's try it.
 const mongoose = require("mongoose");
 
 const PORT = process.env.PORT || 8080;
-const db = require("./models/models.js");
+const db = require("./models");
 const app = express();
 
 app.use(logger("dev"));

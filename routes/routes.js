@@ -6,9 +6,14 @@ module.exports = function (app) {
   // Route to post our form submission to mongoDB via mongoose
   app.get("/api/workouts", (req, res) => {
     console.log("We tried to get!");
-    // Workouts calls ask for the content, then process it. They appear to turn it back into a JSON in the processing, 
-
-    //let user = new User(body);
+    Workout.find({})
+      .then(dbWorkouts => {
+        console.log(dbWorkouts)
+        res.json(dbWorkouts);
+      })
+      .catch(err => {
+        res.json(err);
+      });
   });
   
   app.post("/api/workouts", (req, res) => {
@@ -27,6 +32,17 @@ module.exports = function (app) {
     //   .catch((err) => {
     //   });
   });
+
+  app.get("/api/workouts/range", (req, res) => {
+    Workout.find({}).limit(7)
+      .then(dbWorkouts => {
+        console.log(dbWorkouts)
+        res.json(dbWorkouts);
+      })
+      .catch(err => {
+        res.json(err);
+      });
+    });
 
 
 
