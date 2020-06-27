@@ -2,54 +2,57 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+//You can apparently just do this with the day: and exercises: keys, and I initially thought that was the only way it worked.
+//Turns out it's not, and enumerating these keys helps you trim and control them. Also it's probably easier to follow for someone reading the code.
 const workoutSchema = new Schema(
   {
     day: {
       type: Date,
-      default: () => new Date()
+      default: () => new Date(),
     },
     exercises: [
       {
         type: {
           type: String,
           trim: true,
-          required: "Enter an exercise type"
+          required: "Need an exercise type!",
         },
         name: {
           type: String,
           trim: true,
-          required: "Enter an exercise name"
+          required: "Need an exercise name!",
         },
         duration: {
           type: Number,
-          required: "Enter an exercise duration in minutes"
+          required: "Need a duration!",
         },
         weight: {
-          type: Number
+          type: Number,
         },
         reps: {
-          type: Number
+          type: Number,
         },
         sets: {
-          type: Number
+          type: Number,
         },
         distance: {
-          type: Number
-        }
-      }
-    ]
+          type: Number,
+        },
+      },
+    ],
   },
+  //This bit is valuable, because it lets created properties ride along when this gets shuffled through the system.
   {
     toJSON: {
-      // include any virtual properties when data is requested
-      virtuals: true
-    }
+      virtuals: true,
+    },
   }
 );
 
-// adds a dynamically-created property to schema
+// This was put here to troubleshoot an issue. I can't take credit for writing it, so I just decided to research it as well as I could, so I understand it properly. Still a bit dizzying though.
+// This bit is said created property. It pares down the exercise durations, and adds them up for the total workout duration. 
+// Not a huge fan of counting minutes for resistance training, or mixing that and cardio in one spot, for that matter. But that's the spec.
 workoutSchema.virtual("totalDuration").get(function () {
-  // "reduce" array of exercises down to just the sum of their durations
   return this.exercises.reduce((total, exercise) => {
     return total + exercise.duration;
   }, 0);
@@ -58,26 +61,3 @@ workoutSchema.virtual("totalDuration").get(function () {
 const Workout = mongoose.model("Workout", workoutSchema);
 
 module.exports = Workout;
-
-
-/*/
-
-//This time, we're going to try to make any objects as type String, since it looks like the API JS is stringifying them on the way out.
-//This is, in fact, apparently how that works.
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-
-const WorkoutSchema = new Schema({
-  day: {
-     type: Date
-  },
-  exercises: {
-    type: Array
-  } 
-})
-
-const Workout = mongoose.model("Workout", WorkoutSchema);
-
-module.exports = Workout;
-
-/*/
