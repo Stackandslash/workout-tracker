@@ -18,8 +18,8 @@ require("./routes/routes.js")(app); //This requires our routing file
 app.use(express.static("public"));
 
 //This (may) hook us up to our MongoDB DB.
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
-
+var MONGODB_URI = mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines", { useNewUrlParser: true });
+mongoose.connect(MONGODB_URI);
 // Start the server
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
